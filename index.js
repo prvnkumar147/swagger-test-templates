@@ -62,6 +62,13 @@ function getData(swagger, apiPath, operation, response, config, info) {
 
   var responseDescription = (swagger.paths[apiPath][operation].responses[response]) ?
     swagger.paths[apiPath][operation].responses[response].description : '';
+
+  // Get EP name
+  var endPointName = "DUMMY";
+  if (grandProperty["tags"] && grandProperty["tags"].length > 0) {
+    endPointName = grandProperty["tags"][0];
+  }
+
   var data = { // request payload
     responseCode: response,
     default: response === 'default' ? 'default' : null,
@@ -81,7 +88,10 @@ function getData(swagger, apiPath, operation, response, config, info) {
     loadName: '',
     requests: 0,
     concurrent: 0,
-    pathParams: {}
+    pathParams: {},
+    operation: operation.toUpperCase(),
+    endPointName: endPointName.toUpperCase(),
+    testCaseId: config.testCaseId++,
   };
 
   // get pathParams from config
